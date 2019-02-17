@@ -95,7 +95,7 @@ public struct POSIXTimeOfDay: Time {
     public static var now: POSIXTimeOfDay {
         let result = gettimeofday(&POSIXTimeOfDay.timeVal, nil)
         precondition(result == 0, "failed to call 'gettimeofday' error: \(errno)")
-        let now = UInt64(POSIXTimeOfDay.timeVal.tv_sec) * UInt64(1e9) + UInt64(POSIXTimeOfDay.timeVal.tv_usec) * UInt64(1e6)
+        let now = UInt64(POSIXTimeOfDay.timeVal.tv_sec) * UInt64(1e9) + UInt64(POSIXTimeOfDay.timeVal.tv_usec) * UInt64(1e3)
         return POSIXTimeOfDay(now)
     }
     public var nanoseconds: UInt64 {
