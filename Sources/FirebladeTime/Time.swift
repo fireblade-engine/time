@@ -12,15 +12,15 @@ public protocol Time {
 }
 
 public extension Nanoseconds {
-    var microseconds: Double {
+    @inlinable var microseconds: Double {
         return Double(self) * 1e-3
     }
 
-    var milliseconds: Double {
+    @inlinable var milliseconds: Double {
         return Double(self) * 1e-6
     }
 
-    var seconds: Double {
+    @inlinable var seconds: Double {
         return Double(self) * 1e-9
     }
 }

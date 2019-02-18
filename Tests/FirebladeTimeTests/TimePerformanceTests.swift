@@ -9,7 +9,7 @@ import XCTest
 import FirebladeTime
 
 class TimePerformanceTests: XCTestCase {
-    let kMaxCalls = 10_000_000   
+    let kMaxCalls = 1_000_000   
     
     func testPerformanceMachTime() {
         measure {
