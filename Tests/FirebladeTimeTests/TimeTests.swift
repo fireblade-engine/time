@@ -57,5 +57,7 @@ final class TimeTests: XCTestCase {
         XCTAssertEqual(T.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
     }
     
-    
+    func testPOSIXClockResolution() {
+        XCTAssertEqual(POSIXClock.resolution, 1000)
+    }
 }

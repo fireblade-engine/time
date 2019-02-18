@@ -25,7 +25,7 @@ public enum POSIXClock: Time {
     public private(set) static var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
 
     /// granularity: 1000 ns ~ 1µs
-    public var resolution: UInt64 {
+    public static var resolution: UInt64 {
         var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
         let result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
         assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
