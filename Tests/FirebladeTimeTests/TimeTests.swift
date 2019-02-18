@@ -30,7 +30,7 @@ final class TimeTests: XCTestCase {
         let nS = T.now
         sleep(1)
         let nE = T.now
-        XCTAssertEqual(Double(nE.elapsed(since: nS).nanoseconds), 1e9, accuracy: 5e6)
+        XCTAssertEqual(Double(T.elapsed(start: nS, end: nE)), 1e9, accuracy: 6e6)
     }
     
     func testMicroseconds<T>(_ time: T.Type) where T: Time {
@@ -38,7 +38,7 @@ final class TimeTests: XCTestCase {
         let nS = T.now
         sleep(1)
         let nE = T.now
-        XCTAssertEqual(nE.elapsed(since: nS).microseconds, 1e6, accuracy: 5e3)
+        XCTAssertEqual(T.elapsed(start: nS, end: nE).microseconds, 1e6, accuracy: 6e3)
     }
     
     func testMilliseconds<T>(_ time: T.Type) where T: Time {
@@ -46,7 +46,7 @@ final class TimeTests: XCTestCase {
         let nS = T.now
         sleep(1)
         let nE = T.now
-        XCTAssertEqual(nE.elapsed(since: nS).milliseconds, 1e3, accuracy: 5e1)
+        XCTAssertEqual(T.elapsed(start: nS, end: nE).milliseconds, 1e3, accuracy: 6e1)
     }
     
     func testSeconds<T>(_ time: T.Type) where T: Time {
@@ -54,7 +54,7 @@ final class TimeTests: XCTestCase {
         let nS = T.now
         sleep(1)
         let nE = T.now
-        XCTAssertEqual(nE.elapsed(since: nS).seconds, 1, accuracy: 5e-2)
+        XCTAssertEqual(T.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
     }
     
     

@@ -4,16 +4,23 @@
 //
 //  Created by Christian Treffs on 17.02.19.
 //
-
+public typealias Nanoseconds = UInt64
 public protocol Time {
-    init(_ nanoseconds: UInt64)
+    static var now: Nanoseconds { get }
 
-    static var now: Self { get }
+    static func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds
+}
 
-    var nanoseconds: UInt64 { get }
-    var microseconds: Double { get }
-    var milliseconds: Double { get }
-    var seconds: Double { get }
+public extension Nanoseconds {
+    var microseconds: Double {
+        return Double(self) * 1e-3
+    }
 
-    func elapsed(since start: Self) -> Self
+    var milliseconds: Double {
+        return Double(self) * 1e-6
+    }
+
+    var seconds: Double {
+        return Double(self) * 1e-9
+    }
 }
