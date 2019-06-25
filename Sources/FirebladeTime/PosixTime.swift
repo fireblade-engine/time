@@ -6,6 +6,7 @@
 //
 
 import Darwin.POSIX.time
+// TODO: import Glibc
 // https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
 // https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html
@@ -22,7 +23,7 @@ public enum POSIXClock: Time {
      clock_gettime (ns) => 349 cycles (CLOCK_THREAD_CPUTIME_ID)
      clock_gettime (ns) => 370 cycles (CLOCK_PROCESS_CPUTIME_ID)
      */
-    public private(set) static var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
+    @usableFromInline static var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
 
     /// granularity: 1000 ns ~ 1µs
     public static var resolution: UInt64 {
@@ -60,7 +61,7 @@ public struct POSIXTimeOfDay: Time {
     /// call            : 120 ns
     /// gettimeofday (µs) => 42 cycles
 
-    public private(set) static var timeVal = timeval(tv_sec: 0, tv_usec: 0)
+    @usableFromInline static var timeVal = timeval(tv_sec: 0, tv_usec: 0)
 
     /// granularity: 1000 ns ~ 1µs
     @inlinable public static var now: Nanoseconds {
