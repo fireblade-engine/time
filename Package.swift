@@ -3,11 +3,6 @@ import PackageDescription
 
 let package = Package(
     name: "FirebladeTime",
-    platforms: [
-        .macOS(.v10_14),
-        .iOS(.v11),
-        .tvOS(.v11)
-    ],
     products: [
         .library(
             name: "FirebladeTime",
