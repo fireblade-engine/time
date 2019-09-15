@@ -5,7 +5,13 @@
 //  Created by Christian Treffs on 16.02.19.
 //
 
+#if canImport(Darwin)
 import Darwin.Mach
+#elseif canImport(Glibc)
+import Glibc
+#else
+#error("unavailable on this platform")
+#endif
 
 public enum MachTime: Time {
     // https://web.archive.org/web/20100517095152/http://www.wand.net.nz/~smr26/wordpress/2009/01/19/monotonic-time-in-mac-os-x/comment-page-1/

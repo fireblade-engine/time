@@ -5,12 +5,20 @@
 //  Created by Christian Treffs on 16.02.19.
 //
 
+#if canImport(Darwin)
+import Darwin.POSIX.sys.time
 import Darwin.POSIX.time
-// TODO: import Glibc
-// https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
-// https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
-// https://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html
+#elseif canImport(Glibc)
+import Glibc
+#else
+#error("unavailable on this platform")
+#endif
+
 public enum POSIXClock: Time {
+    // https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
+    // https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
+    // https://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html
+
     /*
      https://stackoverflow.com/a/13096917
      https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
@@ -50,8 +58,6 @@ public enum POSIXClock: Time {
         return end - start
     }
 }
-
-import Darwin.POSIX.sys.time
 
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/gettimeofday.html
 
