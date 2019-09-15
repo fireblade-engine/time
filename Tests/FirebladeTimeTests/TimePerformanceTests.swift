@@ -26,6 +26,7 @@ class TimePerformanceTests: XCTestCase {
         }
     }
 
+    @available(OSX 10.12, *)
     func testPerformancePOSIXClock() {
         measure {
             for _ in 0..<kMaxCalls {
@@ -34,6 +35,7 @@ class TimePerformanceTests: XCTestCase {
         }
     }
 
+    @available(OSX 10.12, *)
     func testPerformancePOSIXClockRaw() {
         measure {
             var tSpec = timespec.init(tv_sec: 0, tv_nsec: 0)

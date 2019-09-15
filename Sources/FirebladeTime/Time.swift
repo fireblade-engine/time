@@ -1,26 +1,32 @@
 //
 //  Time.swift
-//  FirebladeTime
 //
-//  Created by Christian Treffs on 17.02.19.
 //
-public typealias Nanoseconds = UInt64
-public protocol Time {
-    static var now: Nanoseconds { get }
+//  Created by Christian Treffs on 15.09.19.
+//
 
-    static func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds
-}
+public struct Time {
+    @usableFromInline static var time: TimeProviding = makeTime()
 
-public extension Nanoseconds {
-    @inlinable var microseconds: Double {
-        return Double(self) * 1e-3
+    @inlinable static func makeTime() -> TimeProviding {
+        let time: TimeProviding
+        #if USE_MACH_TIME
+        time = MachTime()
+        #elseif USE_POSIX_CLOCK
+        time = POSIXClock()
+        #elseif USE_POXIS_TOD
+        time = POSIXTimeOfDay()
+        #else
+        fatalError("No time implementation available")
+        #endif
+        return time
     }
 
-    @inlinable var milliseconds: Double {
-        return Double(self) * 1e-6
+    @inlinable public static var now: Nanoseconds {
+        return time.now()
     }
 
-    @inlinable var seconds: Double {
-        return Double(self) * 1e-9
+    @inlinable public static func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
+        return time.elapsed(start: start, end: end)
     }
 }

@@ -9,6 +9,7 @@ final class TimeTests: XCTestCase {
         testSeconds(MachTime.self)
     }
 
+    @available(OSX 10.12, *)
     func testPOSIXClock() {
         testNanoseconds(POSIXClock.self)
         testMicroseconds(POSIXClock.self)
@@ -23,7 +24,7 @@ final class TimeTests: XCTestCase {
         testSeconds(POSIXTimeOfDay.self)
     }
 
-    func testNanoseconds<T>(_ time: T.Type) where T: Time {
+    func testNanoseconds<T>(_ time: T.Type) where T: TimeProviding {
         ensureIdleMainThread()
         let nS = T.now
         sleep(1)
@@ -31,7 +32,7 @@ final class TimeTests: XCTestCase {
         XCTAssertEqual(Double(T.elapsed(start: nS, end: nE)), 1e9, accuracy: 6e6)
     }
 
-    func testMicroseconds<T>(_ time: T.Type) where T: Time {
+    func testMicroseconds<T>(_ time: T.Type) where T: TimeProviding {
         ensureIdleMainThread()
         let nS = T.now
         sleep(1)
@@ -39,7 +40,7 @@ final class TimeTests: XCTestCase {
         XCTAssertEqual(T.elapsed(start: nS, end: nE).microseconds, 1e6, accuracy: 6e3)
     }
 
-    func testMilliseconds<T>(_ time: T.Type) where T: Time {
+    func testMilliseconds<T>(_ time: T.Type) where T: TimeProviding {
         ensureIdleMainThread()
         let nS = T.now
         sleep(1)
@@ -47,7 +48,7 @@ final class TimeTests: XCTestCase {
         XCTAssertEqual(T.elapsed(start: nS, end: nE).milliseconds, 1e3, accuracy: 6e1)
     }
 
-    func testSeconds<T>(_ time: T.Type) where T: Time {
+    func testSeconds<T>(_ time: T.Type) where T: TimeProviding {
         ensureIdleMainThread()
         let nS = T.now
         sleep(1)
@@ -55,6 +56,7 @@ final class TimeTests: XCTestCase {
         XCTAssertEqual(T.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
     }
 
+    @available(OSX 10.12, *)
     func testPOSIXClockResolution() {
         XCTAssertEqual(POSIXClock.resolution, 1000)
     }
