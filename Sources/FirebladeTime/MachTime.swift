@@ -6,11 +6,13 @@
 //
 
 import Darwin.Mach
-// https://web.archive.org/web/20100517095152/http://www.wand.net.nz/~smr26/wordpress/2009/01/19/monotonic-time-in-mac-os-x/comment-page-1/
-// https://developer.apple.com/library/archive/qa/qa1398/_index.html
-// https://web.archive.org/web/20150921221407/http://lists.apple.com/archives/PerfOptimization-dev/2006/Jul/msg00024.html
-// https://stackoverflow.com/a/15125418
+
 public enum MachTime: Time {
+    // https://web.archive.org/web/20100517095152/http://www.wand.net.nz/~smr26/wordpress/2009/01/19/monotonic-time-in-mac-os-x/comment-page-1/
+    // https://developer.apple.com/library/archive/qa/qa1398/_index.html
+    // https://web.archive.org/web/20150921221407/http://lists.apple.com/archives/PerfOptimization-dev/2006/Jul/msg00024.html
+    // https://stackoverflow.com/a/15125418
+
     /// Portability     : Mac specific. Always available
     /// granularity     : 1 ns.
     /// call time       : 90 ns unoptimised.
