@@ -5,19 +5,18 @@
 //  Created by Christian Treffs on 18.02.19.
 //
 
-import XCTest
 import FirebladeTime
+import XCTest
 
 class TimePerformanceTests: XCTestCase {
-    let kMaxCalls = 1_000_000   
-    
+    let kMaxCalls = 1_000_000
+
     func testPerformanceMachTime() {
         measure {
             for _ in 0..<kMaxCalls {
                 _ = MachTime.now
             }
         }
-        
     }
     func testPerformanceRawMachTime() {
         measure {
@@ -26,16 +25,15 @@ class TimePerformanceTests: XCTestCase {
             }
         }
     }
-    
+
     func testPerformancePOSIXClock() {
         measure {
             for _ in 0..<kMaxCalls {
                 _ = POSIXClock.now
             }
         }
-        
     }
-    
+
     func testPerformancePOSIXClockRaw() {
         measure {
             var tSpec = timespec.init(tv_sec: 0, tv_nsec: 0)
@@ -45,16 +43,15 @@ class TimePerformanceTests: XCTestCase {
             }
         }
     }
-    
+
     func testPerformancePOSIXTimeOfDay() {
         measure {
             for _ in 0..<kMaxCalls {
                 _ = POSIXTimeOfDay.now
             }
         }
-        
     }
-    
+
     func testPerformancePOSICGetTimeOfDayRaw() {
         measure {
             var tVal = timeval.init(tv_sec: 0, tv_usec: 0)

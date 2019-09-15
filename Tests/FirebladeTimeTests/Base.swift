@@ -11,5 +11,4 @@ public func ensureIdleMainThread() {
     // https://stackoverflow.com/a/15125418
     precondition(Thread.current.isMainThread)
     sleep(2)
-    
 }
