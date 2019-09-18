@@ -2,8 +2,13 @@ import FirebladeTime
 
 import class XCTest.XCTestCase
 import func XCTest.XCTAssertEqual
-import func Darwin.POSIX.sleep
-import class Foundation.Thread
+import class XCTest.Thread
+
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#endif
 
 final class TimeTests: XCTestCase {
     final func ensureIdleMainThread() {
