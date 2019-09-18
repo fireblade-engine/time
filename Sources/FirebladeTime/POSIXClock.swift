@@ -36,16 +36,27 @@ public struct POSIXClock: TimeProviding {
         self.timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
     }
 
+    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+    @inlinable func clockGetRes(_ timeSpec: inout timespec) {
+        let result: Int32
+        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
+            result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
+        } else {
+            fatalError("Not supported")
+        }
+        assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
+    }
+    #elseif os(Linux)
+    @inlinable func clockGetRes(_ timeSpec: inout timespec) {
+        let result: Int32 = Glibc.clock_getres(Glibc.CLOCK_MONOTONIC, &timeSpec)
+        assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
+    }
+    #endif
+
     /// granularity: 1000 ns ~ 1µs
     public var resolution: Nanoseconds {
         var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
-        if #available(OSX 10.12, *) {
-            let result: Int32
-            result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
-            assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
-        } else {
-            // ignore
-        }
+        clockGetRes(&timeSpec)
         return Nanoseconds(timeSpec.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeSpec.tv_nsec)
     }
 
@@ -56,13 +67,7 @@ public struct POSIXClock: TimeProviding {
         /// since an unspecified point in the past (for example, system start-up time, or the Epoch).
         /// This point does not change after system start-up time.
         /// The value of the CLOCK_MONOTONIC clock cannot be set via clock_settime().
-        if #available(OSX 10.12, *) {
-            let result: Int32
-            result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
-            assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
-        } else {
-            // ignore
-        }
+        clockGetRes(&timeSpec)
         return Nanoseconds(timeSpec.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeSpec.tv_nsec)
     }
 
