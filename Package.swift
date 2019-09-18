@@ -1,11 +1,18 @@
 // swift-tools-version:5.0
 import PackageDescription
 
-let swiftSettings: [SwiftSetting] = [
-.define("USE_MACH_TIME"),
-//.define("USE_POSIX_CLOCK"),
-//.define("USE_POSIX_TOD")
-]
+private var swiftSettings: [SwiftSetting] = []
+
+#if canImport(Darwin)
+swiftSettings.append(.define("USE_MACH_TIME"))
+swiftSettings.append(.define("USE_POSIX_CLOCK"))
+swiftSettings.append(.define("USE_POSIX_TOD"))
+#endif
+
+#if canImport(Glibc)
+swiftSettings.append(.define("USE_POSIX_CLOCK"))
+swiftSettings.append(.define("USE_POSIX_TOD"))
+#endif
 
 let package = Package(
     name: "FirebladeTime",
@@ -23,5 +30,8 @@ let package = Package(
             name: "FirebladeTimeTests",
             dependencies: ["FirebladeTime"],
             swiftSettings: swiftSettings),
+        .testTarget(name: "FirebladeTimePerformanceTests",
+                    dependencies: ["FirebladeTime"],
+                    swiftSettings: swiftSettings)
     ]
 )

@@ -6,11 +6,7 @@
 //
 
 #if USE_MACH_TIME
-#if canImport(Darwin)
 import Darwin.Mach
-#elseif canImport(Glibc)
-import Glibc
-#endif
 
 /// Portability     : Mac specific. Always available
 /// granularity     : 1 ns.
@@ -23,7 +19,7 @@ import Glibc
 public struct MachTime: TimeProviding {
     @usableFromInline var sTimebaseInfo: mach_timebase_info_data_t
 
-    @inlinable init() {
+    @inlinable public init() {
         var info: mach_timebase_info_data_t = mach_timebase_info()
         let kernReturn: kern_return_t = mach_timebase_info(&info)
         precondition(KERN_SUCCESS == kernReturn, "Unable to get mach_timebase_info")

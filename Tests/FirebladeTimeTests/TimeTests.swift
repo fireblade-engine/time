@@ -1,63 +1,46 @@
-@testable import FirebladeTime
-import XCTest
+import FirebladeTime
+
+import class XCTest.XCTestCase
+import func XCTest.XCTAssertEqual
+import func Darwin.POSIX.sleep
+import class Foundation.Thread
 
 final class TimeTests: XCTestCase {
-    func testMachTime() {
-        testNanoseconds(MachTime.self)
-        testMicroseconds(MachTime.self)
-        testMilliseconds(MachTime.self)
-        testSeconds(MachTime.self)
+    final func ensureIdleMainThread() {
+        // https://stackoverflow.com/a/15125418
+        precondition(Thread.current.isMainThread)
+        sleep(2)
     }
 
-    @available(OSX 10.12, *)
-    func testPOSIXClock() {
-        testNanoseconds(POSIXClock.self)
-        testMicroseconds(POSIXClock.self)
-        testMilliseconds(POSIXClock.self)
-        testSeconds(POSIXClock.self)
-    }
-
-    func testPOSIXTimeOfDay() {
-        testNanoseconds(POSIXTimeOfDay.self)
-        testMicroseconds(POSIXTimeOfDay.self)
-        testMilliseconds(POSIXTimeOfDay.self)
-        testSeconds(POSIXTimeOfDay.self)
-    }
-
-    func testNanoseconds<T>(_ time: T.Type) where T: TimeProviding {
+    func testNanoseconds() {
         ensureIdleMainThread()
-        let nS = T.now
+        let nS = Time.now
         sleep(1)
-        let nE = T.now
-        XCTAssertEqual(Double(T.elapsed(start: nS, end: nE)), 1e9, accuracy: 6e6)
+        let nE = Time.now
+        XCTAssertEqual(Double(Time.elapsed(start: nS, end: nE)), 1e9, accuracy: 6e6)
     }
 
-    func testMicroseconds<T>(_ time: T.Type) where T: TimeProviding {
+    func testMicroseconds() {
         ensureIdleMainThread()
-        let nS = T.now
+        let nS = Time.now
         sleep(1)
-        let nE = T.now
-        XCTAssertEqual(T.elapsed(start: nS, end: nE).microseconds, 1e6, accuracy: 6e3)
+        let nE = Time.now
+        XCTAssertEqual(Time.elapsed(start: nS, end: nE).microseconds, 1e6, accuracy: 6e3)
     }
 
-    func testMilliseconds<T>(_ time: T.Type) where T: TimeProviding {
+    func testMilliseconds() {
         ensureIdleMainThread()
-        let nS = T.now
+        let nS = Time.now
         sleep(1)
-        let nE = T.now
-        XCTAssertEqual(T.elapsed(start: nS, end: nE).milliseconds, 1e3, accuracy: 6e1)
+        let nE = Time.now
+        XCTAssertEqual(Time.elapsed(start: nS, end: nE).milliseconds, 1e3, accuracy: 6e1)
     }
 
-    func testSeconds<T>(_ time: T.Type) where T: TimeProviding {
+    func testSeconds() {
         ensureIdleMainThread()
-        let nS = T.now
+        let nS = Time.now
         sleep(1)
-        let nE = T.now
-        XCTAssertEqual(T.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
-    }
-
-    @available(OSX 10.12, *)
-    func testPOSIXClockResolution() {
-        XCTAssertEqual(POSIXClock.resolution, 1000)
+        let nE = Time.now
+        XCTAssertEqual(Time.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
     }
 }
