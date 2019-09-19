@@ -5,10 +5,11 @@
 //  Created by Christian Treffs on 15.09.19.
 //
 
-public struct Time {
+public enum Time {
     @usableFromInline static var time: TimeProviding = makeTime()
 
-    @inlinable static func makeTime() -> TimeProviding {
+    @inlinable
+    static func makeTime() -> TimeProviding {
         let time: TimeProviding
         #if USE_MACH_TIME
         time = MachTime()
@@ -26,7 +27,8 @@ public struct Time {
         return time.now()
     }
 
-    @inlinable public static func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
+    @inlinable
+    public static func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
         return time.elapsed(start: start, end: end)
     }
 }

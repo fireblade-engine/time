@@ -32,12 +32,14 @@ public struct POSIXClock: TimeProviding {
 
     @usableFromInline var timeSpec: timespec
 
-    @inlinable public init() {
+    @inlinable
+    public init() {
         self.timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
     }
 
     #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-    @inlinable func clockGetRes(_ timeSpec: inout timespec) {
+    @inlinable
+    func clockGetRes(_ timeSpec: inout timespec) {
         let result: Int32
         if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
@@ -47,7 +49,8 @@ public struct POSIXClock: TimeProviding {
         assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
     }
     #elseif os(Linux)
-    @inlinable func clockGetRes(_ timeSpec: inout timespec) {
+    @inlinable
+    func clockGetRes(_ timeSpec: inout timespec) {
         let result: Int32 = Glibc.clock_getres(Glibc.CLOCK_MONOTONIC, &timeSpec)
         assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
     }
@@ -61,7 +64,8 @@ public struct POSIXClock: TimeProviding {
     }
 
     /// granularity: 1000 ns ~ 1µs
-    @inlinable public mutating func now() -> Nanoseconds {
+    @inlinable
+    public mutating func now() -> Nanoseconds {
         /// The Monotonic Clock option is supported represents the monotonic clock for the system.
         /// For this clock, the value returned by clock_gettime() represents the amount of time (in seconds and nanoseconds)
         /// since an unspecified point in the past (for example, system start-up time, or the Epoch).

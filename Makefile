@@ -1,5 +1,6 @@
 lint:
 	swiftlint autocorrect --format
+	swiftlint lint --quiet
 
 genLinuxTests:
 	swift test --generate-linuxmain

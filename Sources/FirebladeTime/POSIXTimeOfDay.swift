@@ -22,12 +22,14 @@ import Glibc
 public struct POSIXTimeOfDay: TimeProviding {
     @usableFromInline var timeVal: timeval
 
-    @inlinable public init() {
+    @inlinable
+    public init() {
         self.timeVal = timeval(tv_sec: 0, tv_usec: 0)
     }
 
     /// granularity: 1000 ns ~ 1µs
-    @inlinable public mutating func now() -> Nanoseconds {
+    @inlinable
+    public mutating func now() -> Nanoseconds {
         let result = gettimeofday(&timeVal, nil)
         precondition(result == 0, "failed to call 'gettimeofday' error: \(errno)")
         return Nanoseconds(timeVal.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeVal.tv_usec) * Nanoseconds(1e3)

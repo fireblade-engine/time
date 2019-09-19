@@ -19,7 +19,8 @@ import Darwin.Mach
 public struct MachTime: TimeProviding {
     @usableFromInline var sTimebaseInfo: mach_timebase_info_data_t
 
-    @inlinable public init() {
+    @inlinable
+    public init() {
         var info: mach_timebase_info_data_t = mach_timebase_info()
         let kernReturn: kern_return_t = mach_timebase_info(&info)
         precondition(KERN_SUCCESS == kernReturn, "Unable to get mach_timebase_info")
@@ -27,7 +28,8 @@ public struct MachTime: TimeProviding {
     }
 
     /// granularity: 1 ns
-    @inline(__always) public func now() -> Nanoseconds {
+    @inline(__always)
+    public func now() -> Nanoseconds {
         return mach_absolute_time()
     }
 
