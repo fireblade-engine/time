@@ -16,6 +16,12 @@ swiftSettings.append(.define("USE_POSIX_TOD"))
 
 let package = Package(
     name: "FirebladeTime",
+    platforms: [
+        .macOS(.v10_12),
+        .iOS(.v10),
+        .tvOS(.v10),
+        .watchOS(.v3)
+    ],
     products: [
         .library(
             name: "FirebladeTime",
