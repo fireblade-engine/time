@@ -7,19 +7,23 @@
 
 #if USE_POSIX_CLOCK
 
-
 #if canImport(Darwin)
 import Darwin.POSIX
-public let mach_task_self:() -> mach_port_t = { return mach_task_self_ }
-public typealias CTimeSpec = mach_timespec_t
 #elseif canImport(Glibc)
 import Glibc
-public typealias CTimeSpec = timespec
 #else
 #error("unavailable on this platform")
 #endif
 
 public struct POSIXClock: TimeProviding {
+    #if canImport(Darwin)
+    public typealias CTimeSpec = mach_timespec_t
+
+    public let machTaskSelf:() -> mach_port_t = { mach_task_self_ }
+    #elseif canImport(Glibc)
+    public typealias CTimeSpec = timespec
+    #endif
+
     // https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
     // https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
     // https://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html
@@ -34,20 +38,20 @@ public struct POSIXClock: TimeProviding {
     // clock_gettime (ns) => 179 cycles (CLOCK_BOOTTIME)
     // clock_gettime (ns) => 349 cycles (CLOCK_THREAD_CPUTIME_ID)
     // clock_gettime (ns) => 370 cycles (CLOCK_PROCESS_CPUTIME_ID)
-    
+
     @usableFromInline var timeSpec: CTimeSpec
-    
+
     @inlinable
     public init() {
         self.timeSpec = CTimeSpec(tv_sec: 0, tv_nsec: 0)
         // get resolution
         #if canImport(Darwin)
-        timeSpec.tv_sec = UInt32(1 / sysconf(_SC_CLK_TCK));
+        timeSpec.tv_sec = UInt32(1 / sysconf(_SC_CLK_TCK))
         #else
         _ = clock_getres(CLOCK_MONOTONIC, &timeSpec)
         #endif
     }
-    
+
     /// granularity: 1000 ns ~ 1µs
     @inlinable
     public mutating func now() -> Nanoseconds {
@@ -57,16 +61,16 @@ public struct POSIXClock: TimeProviding {
         /// This point does not change after system start-up time.
         /// The value of the CLOCK_MONOTONIC clock cannot be set via clock_settime().
         #if canImport(Darwin)
-        var clock_name: clock_serv_t = 0
-        _ = host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &clock_name)
-        _ = clock_get_time(clock_name, &timeSpec)
-        _ = mach_port_deallocate(mach_task_self(), clock_name)
+        var clockName: clock_serv_t = 0
+        _ = host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &clockName)
+        _ = clock_get_time(clockName, &timeSpec)
+        _ = mach_port_deallocate(machTaskSelf(), clockName)
         #else
         _ = clock_gettime(CLOCK_MONOTONIC, &timeSpec)
         #endif
         return Nanoseconds(timeSpec.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeSpec.tv_nsec)
     }
-    
+
     @inlinable
     public func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
         return end - start

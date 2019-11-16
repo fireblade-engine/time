@@ -23,7 +23,7 @@ final class TimerTests: XCTestCase {
             exp.fulfill()
         }
         XCTAssertFalse(timer.isStopped)
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             timer.stop()
             XCTAssertTrue(timer.isStopped)
         }
@@ -38,7 +38,7 @@ final class TimerTests: XCTestCase {
             exp.fulfill()
         }
         XCTAssertFalse(timer!.isStopped)
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             timer = nil
         }
 
