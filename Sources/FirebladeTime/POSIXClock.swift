@@ -40,12 +40,7 @@ public struct POSIXClock: TimeProviding {
     #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
     @inlinable
     func clockGetRes(_ timeSpec: inout timespec) {
-        let result: Int32
-        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
-            result = clock_getres(CLOCK_MONOTONIC, &timeSpec)
-        } else {
-            fatalError("Not supported")
-        }
+        let result: Int32 = clock_getres(CLOCK_MONOTONIC, &timeSpec)
         assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
     }
     #elseif os(Linux)
