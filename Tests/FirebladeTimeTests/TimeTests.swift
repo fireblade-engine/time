@@ -10,7 +10,7 @@ final class TimeTests: XCTestCase {
     func testNanoseconds() {
         let exp = expectation(description: "\(#function)")
         let nS = Time.now
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             let nE = Time.now
             XCTAssertEqual(Double(Time.elapsed(start: nS, end: nE)), 1e9, accuracy: 6e6)
             exp.fulfill()
@@ -21,7 +21,7 @@ final class TimeTests: XCTestCase {
     func testMicroseconds() {
         let exp = expectation(description: "\(#function)")
         let nS = Time.now
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             let nE = Time.now
             XCTAssertEqual(Time.elapsed(start: nS, end: nE).microseconds, 1e6, accuracy: 6e3)
             exp.fulfill()
@@ -32,7 +32,7 @@ final class TimeTests: XCTestCase {
     func testMilliseconds() {
         let exp = expectation(description: "\(#function)")
         let nS = Time.now
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             let nE = Time.now
             XCTAssertEqual(Time.elapsed(start: nS, end: nE).milliseconds, 1e3, accuracy: 6e1)
             exp.fulfill()
@@ -43,7 +43,7 @@ final class TimeTests: XCTestCase {
     func testSeconds() {
         let exp = expectation(description: "\(#function)")
         let nS = Time.now
-        FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        _ = FTimer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             let nE = Time.now
             XCTAssertEqual(Time.elapsed(start: nS, end: nE).seconds, 1, accuracy: 6e-2)
             exp.fulfill()

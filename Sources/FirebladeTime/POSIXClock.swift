@@ -7,10 +7,14 @@
 
 #if USE_POSIX_CLOCK
 
+
 #if canImport(Darwin)
 import Darwin.POSIX
+public let mach_task_self:() -> mach_port_t = { return mach_task_self_ }
+public typealias CTimeSpec = mach_timespec_t
 #elseif canImport(Glibc)
 import Glibc
+public typealias CTimeSpec = timespec
 #else
 #error("unavailable on this platform")
 #endif
@@ -21,6 +25,7 @@ public struct POSIXClock: TimeProviding {
     // https://pubs.opengroup.org/onlinepubs/9699919799/functions/clock_getres.html
     // https://stackoverflow.com/a/13096917
     // https://www.systutorials.com/5086/measuring-time-accurately-in-programs/
+    // http://answers.gazebosim.org/answers/1651/revisions/
     // clock_gettime (ns) => 9 cycles (CLOCK_MONOTONIC_COARSE)
     // clock_gettime (ns) => 9 cycles (CLOCK_REALTIME_COARSE)
     // clock_gettime (ns) => 42 cycles (CLOCK_MONOTONIC)
@@ -29,35 +34,20 @@ public struct POSIXClock: TimeProviding {
     // clock_gettime (ns) => 179 cycles (CLOCK_BOOTTIME)
     // clock_gettime (ns) => 349 cycles (CLOCK_THREAD_CPUTIME_ID)
     // clock_gettime (ns) => 370 cycles (CLOCK_PROCESS_CPUTIME_ID)
-
-    @usableFromInline var timeSpec: timespec
-
+    
+    @usableFromInline var timeSpec: CTimeSpec
+    
     @inlinable
     public init() {
-        self.timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
+        self.timeSpec = CTimeSpec(tv_sec: 0, tv_nsec: 0)
+        // get resolution
+        #if canImport(Darwin)
+        timeSpec.tv_sec = UInt32(1 / sysconf(_SC_CLK_TCK));
+        #else
+        _ = clock_getres(CLOCK_MONOTONIC, &timeSpec)
+        #endif
     }
-
-    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-    @inlinable
-    func clockGetRes(_ timeSpec: inout timespec) {
-        let result: Int32 = clock_getres(CLOCK_MONOTONIC, &timeSpec)
-        assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
-    }
-    #elseif os(Linux)
-    @inlinable
-    func clockGetRes(_ timeSpec: inout timespec) {
-        let result: Int32 = Glibc.clock_getres(Glibc.CLOCK_MONOTONIC, &timeSpec)
-        assert(result == 0, "failed to call 'clock_getres' error: \(errno)")
-    }
-    #endif
-
-    /// granularity: 1000 ns ~ 1µs
-    public var resolution: Nanoseconds {
-        var timeSpec = timespec(tv_sec: 0, tv_nsec: 0)
-        clockGetRes(&timeSpec)
-        return Nanoseconds(timeSpec.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeSpec.tv_nsec)
-    }
-
+    
     /// granularity: 1000 ns ~ 1µs
     @inlinable
     public mutating func now() -> Nanoseconds {
@@ -66,10 +56,17 @@ public struct POSIXClock: TimeProviding {
         /// since an unspecified point in the past (for example, system start-up time, or the Epoch).
         /// This point does not change after system start-up time.
         /// The value of the CLOCK_MONOTONIC clock cannot be set via clock_settime().
-        clockGetRes(&timeSpec)
+        #if canImport(Darwin)
+        var clock_name: clock_serv_t = 0
+        _ = host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &clock_name)
+        _ = clock_get_time(clock_name, &timeSpec)
+        _ = mach_port_deallocate(mach_task_self(), clock_name)
+        #else
+        _ = clock_gettime(CLOCK_MONOTONIC, &timeSpec)
+        #endif
         return Nanoseconds(timeSpec.tv_sec) * Nanoseconds(1e9) + Nanoseconds(timeSpec.tv_nsec)
     }
-
+    
     @inlinable
     public func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
         return end - start
