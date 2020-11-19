@@ -6,7 +6,7 @@ extension MachTimePerformanceTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__MachTimePerformanceTests = [
-        ("testPerformanceMachTime", testPerformanceMachTime)
+        ("testPerformanceMachTime", testPerformanceMachTime),
     ]
 }
 
@@ -15,7 +15,7 @@ extension POSIXTimeOfDayPerformanceTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__POSIXTimeOfDayPerformanceTests = [
-        ("testPerformancePOSIXTimeOfDay", testPerformancePOSIXTimeOfDay)
+        ("testPerformancePOSIXTimeOfDay", testPerformancePOSIXTimeOfDay),
     ]
 }
 
@@ -24,7 +24,7 @@ extension PosixClockPerformanceTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__PosixClockPerformanceTests = [
-        ("testPerformancePOSIXClock", testPerformancePOSIXClock)
+        ("testPerformancePOSIXClock", testPerformancePOSIXClock),
     ]
 }
 
@@ -32,7 +32,7 @@ public func __allTests() -> [XCTestCaseEntry] {
     return [
         testCase(MachTimePerformanceTests.__allTests__MachTimePerformanceTests),
         testCase(POSIXTimeOfDayPerformanceTests.__allTests__POSIXTimeOfDayPerformanceTests),
-        testCase(PosixClockPerformanceTests.__allTests__PosixClockPerformanceTests)
+        testCase(PosixClockPerformanceTests.__allTests__PosixClockPerformanceTests),
     ]
 }
 #endif

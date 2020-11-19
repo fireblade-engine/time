@@ -75,46 +75,46 @@ public struct Duration: Equatable, Comparable, Hashable, CustomDebugStringConver
     public init(_ nanoseconds: Double) { self.nanoTime = DurationUnit(nanoseconds) }
     public init(nanoseconds: Double) { self.nanoTime = DurationUnit(nanoseconds) }
 
-    public var nanoseconds: (floatPt: Double, fixPt: DurationUnit) { return (Double(self.nanoTime), self.nanoTime) }
+    public var nanoseconds: (floatPt: Double, fixPt: DurationUnit) { (Double(self.nanoTime), self.nanoTime) }
 
     public init(microseconds: DurationUnit) { self.nanoTime = microseconds * kµsPerNs }
     public init(microseconds: Double) { self.nanoTime = DurationUnit(Double(kµsPerNs) * microseconds) }
 
-    public var microseconds: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kµsPerNs) }
+    public var microseconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kµsPerNs) }
 
     public init(milliseconds: DurationUnit) { self.nanoTime = milliseconds * kMsPerNs }
     public init(milliseconds: Double) { self.nanoTime = DurationUnit(Double(kMsPerNs) * milliseconds) }
 
-    public var milliseconds: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kMsPerNs) }
+    public var milliseconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kMsPerNs) }
 
     public init(seconds: DurationUnit) { self.nanoTime = seconds * kSecPerNs }
     public init(seconds: Double) { self.nanoTime = DurationUnit(Double(kSecPerNs) * seconds) }
 
-    public var seconds: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kSecPerNs) }
+    public var seconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kSecPerNs) }
 
     public init(minutes: DurationUnit) { self.nanoTime = minutes * kMinPerNs }
     public init(minutes: Double) { self.nanoTime = DurationUnit(Double(kMinPerNs) * minutes) }
 
-    public var minutes: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kMinPerNs) }
+    public var minutes: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kMinPerNs) }
 
     public init(hours: DurationUnit) { self.nanoTime = hours * kHPerNs }
     public init(hours: Double) { self.nanoTime = DurationUnit(Double(kHPerNs) * hours) }
 
-    public var hours: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kHPerNs) }
+    public var hours: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kHPerNs) }
 
     public init(days: DurationUnit) { self.nanoTime = days * kDPerNs }
     public init(days: Double) { self.nanoTime = DurationUnit(Double(kDPerNs) * days) }
 
-    public var days: (floatPt: Double, fixPt: DurationUnit) { return fromNanos(kDPerNs) }
+    public var days: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kDPerNs) }
 
     public var asNanoString: String {
-        return String(self.nanoTime)
+        String(self.nanoTime)
     }
     public var description: String {
-        return asNanoString
+        asNanoString
     }
 
-    public func add(_ o: Duration) -> Duration { return Duration(nanoseconds: self.nanoTime + o.nanoTime) }
+    public func add(_ o: Duration) -> Duration { Duration(nanoseconds: self.nanoTime + o.nanoTime) }
     public func subtract(_ o: Duration) -> Duration? {
         if self.nanoTime < o.nanoTime {
             return nil
@@ -155,11 +155,11 @@ public struct Duration: Equatable, Comparable, Hashable, CustomDebugStringConver
         }
     }
 
-    public static func == (lhs: Duration, rhs: Duration) -> Bool { return lhs.nanoTime == rhs.nanoTime }
-    public static func < (lhs: Duration, rhs: Duration) -> Bool { return lhs.nanoTime < rhs.nanoTime }
-    public static func + (lhs: Duration, rhs: Duration) -> Duration { return lhs.add(rhs) }
+    public static func == (lhs: Duration, rhs: Duration) -> Bool { lhs.nanoTime == rhs.nanoTime }
+    public static func < (lhs: Duration, rhs: Duration) -> Bool { lhs.nanoTime < rhs.nanoTime }
+    public static func + (lhs: Duration, rhs: Duration) -> Duration { lhs.add(rhs) }
     public static func += (lhs: inout Duration, rhs: Duration) { lhs = lhs + rhs }
-    public static func - (lhs: Duration, rhs: Duration) -> Duration? { return lhs.subtract(rhs) }
+    public static func - (lhs: Duration, rhs: Duration) -> Duration? { lhs.subtract(rhs) }
 }
 
 // MARK: - extensions
@@ -175,29 +175,29 @@ public protocol DurationConvertible {
 }
 
 extension Int: DurationConvertible {
-    public var nanoseconds: Duration { return Duration(DurationUnit(self)) }
-    public var microseconds: Duration { return Duration(microseconds: DurationUnit(self)) }
-    public var milliseconds: Duration { return Duration(milliseconds: DurationUnit(self)) }
-    public var seconds: Duration { return Duration(seconds: DurationUnit(self)) }
-    public var minutes: Duration { return Duration(minutes: DurationUnit(self)) }
-    public var hours: Duration { return Duration(hours: DurationUnit(self)) }
-    public var days: Duration { return Duration(days: DurationUnit(self)) }
+    public var nanoseconds: Duration { Duration(DurationUnit(self)) }
+    public var microseconds: Duration { Duration(microseconds: DurationUnit(self)) }
+    public var milliseconds: Duration { Duration(milliseconds: DurationUnit(self)) }
+    public var seconds: Duration { Duration(seconds: DurationUnit(self)) }
+    public var minutes: Duration { Duration(minutes: DurationUnit(self)) }
+    public var hours: Duration { Duration(hours: DurationUnit(self)) }
+    public var days: Duration { Duration(days: DurationUnit(self)) }
 }
 extension Float: DurationConvertible {
-    public var nanoseconds: Duration { return Duration(Double(self)) }
-    public var microseconds: Duration { return Duration(microseconds: Double(self)) }
-    public var milliseconds: Duration { return Duration(milliseconds: Double(self)) }
-    public var seconds: Duration { return Duration(seconds: Double(self)) }
-    public var minutes: Duration { return Duration(minutes: Double(self)) }
-    public var hours: Duration { return Duration(hours: Double(self)) }
-    public var days: Duration { return Duration(days: Double(self)) }
+    public var nanoseconds: Duration { Duration(Double(self)) }
+    public var microseconds: Duration { Duration(microseconds: Double(self)) }
+    public var milliseconds: Duration { Duration(milliseconds: Double(self)) }
+    public var seconds: Duration { Duration(seconds: Double(self)) }
+    public var minutes: Duration { Duration(minutes: Double(self)) }
+    public var hours: Duration { Duration(hours: Double(self)) }
+    public var days: Duration { Duration(days: Double(self)) }
 }
 extension Double: DurationConvertible {
-    public var nanoseconds: Duration { return Duration(self) }
-    public var microseconds: Duration { return Duration(microseconds: self) }
-    public var milliseconds: Duration { return Duration(milliseconds: self) }
-    public var seconds: Duration { return Duration(seconds: self) }
-    public var minutes: Duration { return Duration(minutes: self) }
-    public var hours: Duration { return Duration(hours: self) }
-    public var days: Duration { return Duration(days: self) }
+    public var nanoseconds: Duration { Duration(self) }
+    public var microseconds: Duration { Duration(microseconds: self) }
+    public var milliseconds: Duration { Duration(milliseconds: self) }
+    public var seconds: Duration { Duration(seconds: self) }
+    public var minutes: Duration { Duration(minutes: self) }
+    public var hours: Duration { Duration(hours: self) }
+    public var days: Duration { Duration(days: self) }
 }

@@ -13,14 +13,14 @@ public protocol TimeProviding {
 
 extension Nanoseconds {
     @inlinable public var microseconds: Double {
-        return Double(self) * 1e-3
+        Double(self) * 1e-3
     }
 
     @inlinable public var milliseconds: Double {
-        return Double(self) * 1e-6
+        Double(self) * 1e-6
     }
 
     @inlinable public var seconds: Double {
-        return Double(self) * 1e-9
+        Double(self) * 1e-9
     }
 }

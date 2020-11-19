@@ -5,7 +5,7 @@
 //  Created by Christian Treffs on 15.09.19.
 //
 
-#if USE_POSIX_TOD
+#if FRB_USE_POSIX_TOD
 #if canImport(Darwin)
 import Darwin.POSIX
 #elseif canImport(Glibc)
@@ -37,7 +37,7 @@ public struct POSIXTimeOfDay: TimeProviding {
 
     @inlinable
     public func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
-        return end - start
+        end - start
     }
 }
 #endif

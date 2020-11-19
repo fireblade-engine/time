@@ -5,7 +5,7 @@
 //  Created by Christian Treffs on 16.02.19.
 //
 
-#if USE_POSIX_CLOCK
+#if FRB_USE_POSIX_CLOCK
 
 #if canImport(Darwin)
 import Darwin.POSIX
@@ -73,7 +73,7 @@ public struct POSIXClock: TimeProviding {
 
     @inlinable
     public func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds {
-        return end - start
+        end - start
     }
 }
 #endif

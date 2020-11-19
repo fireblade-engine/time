@@ -9,7 +9,7 @@ extension TimeTests {
         ("testMicroseconds", testMicroseconds),
         ("testMilliseconds", testMilliseconds),
         ("testNanoseconds", testNanoseconds),
-        ("testSeconds", testSeconds)
+        ("testSeconds", testSeconds),
     ]
 }
 
@@ -19,14 +19,14 @@ extension TimerTests {
     // to regenerate.
     static let __allTests__TimerTests = [
         ("testTimerStop", testTimerStop),
-        ("testTimerStopByDeinit", testTimerStopByDeinit)
+        ("testTimerStopByDeinit", testTimerStopByDeinit),
     ]
 }
 
 public func __allTests() -> [XCTestCaseEntry] {
     return [
         testCase(TimeTests.__allTests__TimeTests),
-        testCase(TimerTests.__allTests__TimerTests)
+        testCase(TimerTests.__allTests__TimerTests),
     ]
 }
 #endif

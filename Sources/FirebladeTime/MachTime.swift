@@ -5,7 +5,7 @@
 //  Created by Christian Treffs on 16.02.19.
 //
 
-#if USE_MACH_TIME
+#if FRB_USE_MACH_TIME
 import Darwin.Mach
 
 /// Portability     : Mac specific. Always available
@@ -30,7 +30,7 @@ public struct MachTime: TimeProviding {
     /// granularity: 1 ns
     @inline(__always)
     public func now() -> Nanoseconds {
-        return mach_absolute_time()
+        mach_absolute_time()
     }
 
     @inline(__always)

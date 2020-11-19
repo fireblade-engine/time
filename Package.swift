@@ -4,14 +4,14 @@ import PackageDescription
 private var swiftSettings: [SwiftSetting] = []
 
 #if canImport(Darwin)
-swiftSettings.append(.define("USE_MACH_TIME"))
-swiftSettings.append(.define("USE_POSIX_CLOCK"))
-swiftSettings.append(.define("USE_POSIX_TOD"))
+swiftSettings.append(.define("FRB_USE_MACH_TIME"))
+swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
+swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
 #endif
 
 #if canImport(Glibc)
-swiftSettings.append(.define("USE_POSIX_CLOCK"))
-swiftSettings.append(.define("USE_POSIX_TOD"))
+swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
+swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
 #endif
 
 let package = Package(
