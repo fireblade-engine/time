@@ -50,7 +50,7 @@ setup-brew:
 
 .PHONY: test
 test:
-	swift test -v --skip-update --parallel --enable-test-discovery
+	swift test -v --skip-update --enable-test-discovery
 
 .PHONY: genLinuxTests
 genLinuxTests:
