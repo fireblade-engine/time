@@ -1,9 +1,10 @@
 //
-//  Duration.swift
-//  FirebladeEngine
+// Duration.swift
+// Fireblade Time
 //
-//  Created by Christian Treffs on 01.08.17.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
+
 // swiftlint:disable identifier_name
 
 // see: https://github.com/scala/scala/tree/2.12.x/src/library/scala/concurrent/duration

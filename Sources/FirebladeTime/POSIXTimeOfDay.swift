@@ -1,9 +1,9 @@
 //
-//  POSIXTimeOfDay.swift
+// POSIXTimeOfDay.swift
+// Fireblade Time
 //
-//
-//  Created by Christian Treffs on 15.09.19.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
 
 #if FRB_USE_POSIX_TOD
     #if canImport(Darwin)

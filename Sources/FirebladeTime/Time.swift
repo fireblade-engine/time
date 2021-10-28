@@ -1,9 +1,9 @@
 //
-//  Time.swift
+// Time.swift
+// Fireblade Time
 //
-//
-//  Created by Christian Treffs on 15.09.19.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
 
 public enum Time {
     @usableFromInline static var time: TimeProviding = makeTime()

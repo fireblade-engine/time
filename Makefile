@@ -12,7 +12,7 @@ lint-fix:
 	swiftformat --quiet --swiftversion ${SWIFT_PACKAGE_VERSION} .
 
 .PHONY: pre-push
-pre-push: genLinuxTests lint-fix
+pre-push: genLinuxTests update-fileheaders lint-fix
 
 # Build debug version
 .PHONY: build-debug
@@ -56,3 +56,7 @@ test:
 genLinuxTests:
 	swift test --generate-linuxmain
 	swiftlint --fix --format --path Tests/
+
+.PHONY: update-fileheaders
+update-fileheaders:
+	Scripts/update-fileheaders.sh

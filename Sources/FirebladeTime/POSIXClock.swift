@@ -1,9 +1,9 @@
 //
-//  POSIXClock.swift
-//  FirebladeTime
+// POSIXClock.swift
+// Fireblade Time
 //
-//  Created by Christian Treffs on 16.02.19.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
 
 #if FRB_USE_POSIX_CLOCK
 

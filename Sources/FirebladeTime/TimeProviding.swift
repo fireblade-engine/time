@@ -1,9 +1,10 @@
 //
-//  Time.swift
-//  FirebladeTime
+// TimeProviding.swift
+// Fireblade Time
 //
-//  Created by Christian Treffs on 17.02.19.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
+
 public typealias Nanoseconds = UInt64
 public protocol TimeProviding {
     mutating func now() -> Nanoseconds
