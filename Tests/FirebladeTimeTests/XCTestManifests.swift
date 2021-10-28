@@ -24,7 +24,7 @@
     }
 
     public func __allTests() -> [XCTestCaseEntry] {
-        return [
+        [
             testCase(TimeTests.__allTests__TimeTests),
             testCase(TimerTests.__allTests__TimerTests),
         ]

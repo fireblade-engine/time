@@ -29,7 +29,7 @@
     }
 
     public func __allTests() -> [XCTestCaseEntry] {
-        return [
+        [
             testCase(MachTimePerformanceTests.__allTests__MachTimePerformanceTests),
             testCase(POSIXTimeOfDayPerformanceTests.__allTests__POSIXTimeOfDayPerformanceTests),
             testCase(PosixClockPerformanceTests.__allTests__PosixClockPerformanceTests),
