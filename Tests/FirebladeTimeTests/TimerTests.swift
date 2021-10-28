@@ -34,7 +34,7 @@ final class TimerTests: XCTestCase {
     func testTimerStopByDeinit() {
         let exp = expectation(description: "\(#function)")
         var timer: ITimer? = ITimer { nanos in
-            XCTAssertEqual(Double(nanos), 1e9, accuracy: 6e6)
+            XCTAssertEqual(Double(nanos), 1e9, accuracy: 3e8)
             exp.fulfill()
         }
         XCTAssertFalse(timer!.isStopped)
