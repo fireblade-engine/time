@@ -12,7 +12,7 @@ lint-fix:
 	swiftformat --quiet --swiftversion ${SWIFT_PACKAGE_VERSION} .
 
 .PHONY: pre-push
-pre-push: lint-fix
+pre-push: genLinuxTests lint-fix
 
 # Build debug version
 .PHONY: build-debug
@@ -47,3 +47,12 @@ open-proj-vscode:
 setup-brew:
 	@which -s brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 	@brew update
+
+.PHONY: test
+test:
+	swift test --parallel
+
+.PHONY: genLinuxTests
+genLinuxTests:
+	swift test --generate-linuxmain
+	swiftlint --fix --format --path Tests/

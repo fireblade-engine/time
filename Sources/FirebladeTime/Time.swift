@@ -6,15 +6,15 @@
 //
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-import Darwin
+    import Darwin
 #elseif os(Windows)
-import CRT
+    import CRT
 #elseif canImport(Glibc)
-import Glibc
+    import Glibc
 #elseif canImport(WASILibc)
-import WASILibc
+    import WASILibc
 #else
-#error("Unsupported runtime")
+    #error("Unsupported runtime")
 #endif
 
 public enum Time {
@@ -24,13 +24,13 @@ public enum Time {
     static func makeTime() -> TimeProviding {
         let time: TimeProviding
         #if FRB_USE_MACH_TIME
-        time = MachTime()
+            time = MachTime()
         #elseif FRB_USE_POSIX_CLOCK
-        time = POSIXClock()
+            time = POSIXClock()
         #elseif USE_POXIS_TOD
-        time = POSIXTimeOfDay()
+            time = POSIXTimeOfDay()
         #else
-        fatalError("No time implementation available")
+            fatalError("No time implementation available")
         #endif
         return time
     }
@@ -50,7 +50,7 @@ public enum Time {
         gettimeofday(&tv, nil)
         let tm = localtime(&tv.tv_sec)
         let millis = tv.tv_usec
-        
+
         if #available(macOS 11.0, iOS 14.0, tvOS 14.0, *) {
             return String(unsafeUninitializedCapacity: 32) { cPtr in
                 cPtr.withMemoryRebound(to: CChar.self) { ptr in

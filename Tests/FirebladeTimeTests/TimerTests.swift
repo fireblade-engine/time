@@ -5,12 +5,12 @@
 //  Created by Christian Treffs on 16.11.19.
 //
 
-import class XCTest.XCTestCase
-import func XCTest.XCTAssertEqual
-import func XCTest.XCTAssertTrue
-import func XCTest.XCTAssertFalse
-import class Foundation.Timer
 import FirebladeTime
+import class Foundation.Timer
+import func XCTest.XCTAssertEqual
+import func XCTest.XCTAssertFalse
+import func XCTest.XCTAssertTrue
+import class XCTest.XCTestCase
 
 final class TimerTests: XCTestCase {
     typealias FTimer = Foundation.Timer

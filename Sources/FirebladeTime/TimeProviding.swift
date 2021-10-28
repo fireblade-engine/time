@@ -11,16 +11,16 @@ public protocol TimeProviding {
     func elapsed(start: Nanoseconds, end: Nanoseconds) -> Nanoseconds
 }
 
-extension Nanoseconds {
-    @inlinable public var microseconds: Double {
+public extension Nanoseconds {
+    @inlinable var microseconds: Double {
         Double(self) * 1e-3
     }
 
-    @inlinable public var milliseconds: Double {
+    @inlinable var milliseconds: Double {
         Double(self) * 1e-6
     }
 
-    @inlinable public var seconds: Double {
+    @inlinable var seconds: Double {
         Double(self) * 1e-9
     }
 }

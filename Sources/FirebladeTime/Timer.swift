@@ -6,7 +6,7 @@
 //
 
 open class Timer {
-    public var isStopped: Bool = false
+    public var isStopped = false
     @usableFromInline let elapsed: (Nanoseconds) -> Void
     public let start: Nanoseconds
 
