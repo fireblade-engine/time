@@ -5,12 +5,14 @@
 //  Created by Christian Treffs on 16.11.19.
 //
 
-import class XCTest.XCTestCase
-import func XCTest.XCTAssertEqual
-import func XCTest.XCTAssertTrue
-import func XCTest.XCTAssertFalse
-import class Foundation.Timer
 import FirebladeTime
+import class Foundation.Timer
+import func XCTest.XCTAssertEqual
+import func XCTest.XCTAssertFalse
+import func XCTest.XCTAssertTrue
+import class XCTest.XCTestCase
+
+let accuracy: Double = 3e8
 
 final class TimerTests: XCTestCase {
     typealias FTimer = Foundation.Timer
@@ -19,7 +21,7 @@ final class TimerTests: XCTestCase {
     func testTimerStop() {
         let exp = expectation(description: "\(#function)")
         let timer = ITimer { nanos in
-            XCTAssertEqual(Double(nanos), 1e9, accuracy: 6e6)
+            XCTAssertEqual(Double(nanos), 1e9, accuracy: accuracy)
             exp.fulfill()
         }
         XCTAssertFalse(timer.isStopped)
@@ -34,7 +36,7 @@ final class TimerTests: XCTestCase {
     func testTimerStopByDeinit() {
         let exp = expectation(description: "\(#function)")
         var timer: ITimer? = ITimer { nanos in
-            XCTAssertEqual(Double(nanos), 1e9, accuracy: 6e6)
+            XCTAssertEqual(Double(nanos), 1e9, accuracy: accuracy)
             exp.fulfill()
         }
         XCTAssertFalse(timer!.isStopped)

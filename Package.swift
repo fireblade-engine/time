@@ -1,17 +1,17 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 import PackageDescription
 
 private var swiftSettings: [SwiftSetting] = []
 
 #if canImport(Darwin)
-swiftSettings.append(.define("FRB_USE_MACH_TIME"))
-swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
-swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
+    swiftSettings.append(.define("FRB_USE_MACH_TIME"))
+    swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
+    swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
 #endif
 
 #if canImport(Glibc)
-swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
-swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
+    swiftSettings.append(.define("FRB_USE_POSIX_CLOCK"))
+    swiftSettings.append(.define("FRB_USE_POSIX_TOD"))
 #endif
 
 let package = Package(
@@ -20,24 +20,27 @@ let package = Package(
         .macOS(.v10_12),
         .iOS(.v10),
         .tvOS(.v10),
-        .watchOS(.v3)
+        .watchOS(.v3),
     ],
     products: [
         .library(
             name: "FirebladeTime",
-            targets: ["FirebladeTime"]),
+            targets: ["FirebladeTime"]
+        ),
     ],
     targets: [
         .target(
             name: "FirebladeTime",
             dependencies: [],
-            swiftSettings: swiftSettings),
+            swiftSettings: swiftSettings
+        ),
         .testTarget(
             name: "FirebladeTimeTests",
             dependencies: ["FirebladeTime"],
-            swiftSettings: swiftSettings),
+            swiftSettings: swiftSettings
+        ),
         .testTarget(name: "FirebladeTimePerformanceTests",
                     dependencies: ["FirebladeTime"],
-                    swiftSettings: swiftSettings)
+                    swiftSettings: swiftSettings),
     ]
 )

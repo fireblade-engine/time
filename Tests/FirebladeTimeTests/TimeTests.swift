@@ -1,8 +1,8 @@
 import FirebladeTime
 
-import class XCTest.XCTestCase
-import func XCTest.XCTAssertEqual
 import class Foundation.Timer
+import func XCTest.XCTAssertEqual
+import class XCTest.XCTestCase
 
 final class TimeTests: XCTestCase {
     typealias FTimer = Foundation.Timer

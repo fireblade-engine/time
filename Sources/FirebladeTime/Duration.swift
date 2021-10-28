@@ -1,15 +1,16 @@
 //
-//  Duration.swift
-//  FirebladeEngine
+// Duration.swift
+// Fireblade Time
 //
-//  Created by Christian Treffs on 01.08.17.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
+
 // swiftlint:disable identifier_name
 
 // see: https://github.com/scala/scala/tree/2.12.x/src/library/scala/concurrent/duration
 public typealias DurationUnit = UInt64
 
-//private let nanoNanos: DurationUnit = 1
+// private let nanoNanos: DurationUnit = 1
 private let kµsPerNs = DurationUnit(1e3)
 private let kMsPerNs: DurationUnit = kµsPerNs * DurationUnit(1e3)
 private let kSecPerNs: DurationUnit = kMsPerNs * DurationUnit(1e3)
@@ -26,6 +27,7 @@ public enum TimeUnit: String {
     case Hours = "h"
     case Days = "d"
 }
+
 public struct Duration: Equatable, Comparable, Hashable, CustomDebugStringConvertible, CustomStringConvertible {
     public static let zero = Duration(DurationUnit(0))
     public static let nanosecond = Duration(nanoseconds: DurationUnit(1))
@@ -70,66 +72,67 @@ public struct Duration: Equatable, Comparable, Hashable, CustomDebugStringConver
         }
     }
 
-    public init(_ nanoseconds: DurationUnit) { self.nanoTime = nanoseconds }
-    public init(nanoseconds: DurationUnit) { self.nanoTime = nanoseconds }
-    public init(_ nanoseconds: Double) { self.nanoTime = DurationUnit(nanoseconds) }
-    public init(nanoseconds: Double) { self.nanoTime = DurationUnit(nanoseconds) }
+    public init(_ nanoseconds: DurationUnit) { nanoTime = nanoseconds }
+    public init(nanoseconds: DurationUnit) { nanoTime = nanoseconds }
+    public init(_ nanoseconds: Double) { nanoTime = DurationUnit(nanoseconds) }
+    public init(nanoseconds: Double) { nanoTime = DurationUnit(nanoseconds) }
 
     public var nanoseconds: (floatPt: Double, fixPt: DurationUnit) { (Double(self.nanoTime), self.nanoTime) }
 
-    public init(microseconds: DurationUnit) { self.nanoTime = microseconds * kµsPerNs }
-    public init(microseconds: Double) { self.nanoTime = DurationUnit(Double(kµsPerNs) * microseconds) }
+    public init(microseconds: DurationUnit) { nanoTime = microseconds * kµsPerNs }
+    public init(microseconds: Double) { nanoTime = DurationUnit(Double(kµsPerNs) * microseconds) }
 
     public var microseconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kµsPerNs) }
 
-    public init(milliseconds: DurationUnit) { self.nanoTime = milliseconds * kMsPerNs }
-    public init(milliseconds: Double) { self.nanoTime = DurationUnit(Double(kMsPerNs) * milliseconds) }
+    public init(milliseconds: DurationUnit) { nanoTime = milliseconds * kMsPerNs }
+    public init(milliseconds: Double) { nanoTime = DurationUnit(Double(kMsPerNs) * milliseconds) }
 
     public var milliseconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kMsPerNs) }
 
-    public init(seconds: DurationUnit) { self.nanoTime = seconds * kSecPerNs }
-    public init(seconds: Double) { self.nanoTime = DurationUnit(Double(kSecPerNs) * seconds) }
+    public init(seconds: DurationUnit) { nanoTime = seconds * kSecPerNs }
+    public init(seconds: Double) { nanoTime = DurationUnit(Double(kSecPerNs) * seconds) }
 
     public var seconds: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kSecPerNs) }
 
-    public init(minutes: DurationUnit) { self.nanoTime = minutes * kMinPerNs }
-    public init(minutes: Double) { self.nanoTime = DurationUnit(Double(kMinPerNs) * minutes) }
+    public init(minutes: DurationUnit) { nanoTime = minutes * kMinPerNs }
+    public init(minutes: Double) { nanoTime = DurationUnit(Double(kMinPerNs) * minutes) }
 
     public var minutes: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kMinPerNs) }
 
-    public init(hours: DurationUnit) { self.nanoTime = hours * kHPerNs }
-    public init(hours: Double) { self.nanoTime = DurationUnit(Double(kHPerNs) * hours) }
+    public init(hours: DurationUnit) { nanoTime = hours * kHPerNs }
+    public init(hours: Double) { nanoTime = DurationUnit(Double(kHPerNs) * hours) }
 
     public var hours: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kHPerNs) }
 
-    public init(days: DurationUnit) { self.nanoTime = days * kDPerNs }
-    public init(days: Double) { self.nanoTime = DurationUnit(Double(kDPerNs) * days) }
+    public init(days: DurationUnit) { nanoTime = days * kDPerNs }
+    public init(days: Double) { nanoTime = DurationUnit(Double(kDPerNs) * days) }
 
     public var days: (floatPt: Double, fixPt: DurationUnit) { fromNanos(kDPerNs) }
 
     public var asNanoString: String {
-        String(self.nanoTime)
+        String(nanoTime)
     }
+
     public var description: String {
         asNanoString
     }
 
-    public func add(_ o: Duration) -> Duration { Duration(nanoseconds: self.nanoTime + o.nanoTime) }
+    public func add(_ o: Duration) -> Duration { Duration(nanoseconds: nanoTime + o.nanoTime) }
     public func subtract(_ o: Duration) -> Duration? {
-        if self.nanoTime < o.nanoTime {
+        if nanoTime < o.nanoTime {
             return nil
         }
-        return Duration(nanoseconds: self.nanoTime - o.nanoTime)
+        return Duration(nanoseconds: nanoTime - o.nanoTime)
     }
 
-    /*public init(timeInterval: TimeInterval) {
+    /* public init(timeInterval: TimeInterval) {
      // NSTimeInterval is always specified in seconds; it yields sub-millisecond precision over a range of 10,000 years.
      self.nanoTime = DurationUnit(timeInterval) * secPerNs
      }
-     public var timeInterval: TimeInterval { return TimeInterval(self.seconds.floatPt) }*/
+     public var timeInterval: TimeInterval { return TimeInterval(self.seconds.floatPt) } */
 
     private func fromNanos(_ factor: DurationUnit) -> (floatPt: Double, fixPt: DurationUnit) {
-        let dval = Double(self.nanoTime) / Double(factor)
+        let dval = Double(nanoTime) / Double(factor)
         return (dval, DurationUnit(dval))
     }
 
@@ -139,19 +142,19 @@ public struct Duration: Equatable, Comparable, Hashable, CustomDebugStringConver
 
     public var debugDescription: String {
         if self < Duration.microsecond {
-            return "\(self.nanoseconds.floatPt)ns"
+            return "\(nanoseconds.floatPt)ns"
         } else if self < Duration.millisecond {
-            return "\(self.microseconds.floatPt)µs"
+            return "\(microseconds.floatPt)µs"
         } else if self < Duration.second {
-            return "\(self.milliseconds.floatPt)ms"
+            return "\(milliseconds.floatPt)ms"
         } else if self < Duration.minute {
-            return "\(self.seconds.floatPt)s"
+            return "\(seconds.floatPt)s"
         } else if self < Duration.hour {
-            return "\(self.minutes.floatPt)min"
+            return "\(minutes.floatPt)min"
         } else if self < Duration.day {
-            return "\(self.hours.floatPt)h"
+            return "\(hours.floatPt)h"
         } else {
-            return "\(self.days.floatPt)d"
+            return "\(days.floatPt)d"
         }
     }
 
@@ -183,6 +186,7 @@ extension Int: DurationConvertible {
     public var hours: Duration { Duration(hours: DurationUnit(self)) }
     public var days: Duration { Duration(days: DurationUnit(self)) }
 }
+
 extension Float: DurationConvertible {
     public var nanoseconds: Duration { Duration(Double(self)) }
     public var microseconds: Duration { Duration(microseconds: Double(self)) }
@@ -192,6 +196,7 @@ extension Float: DurationConvertible {
     public var hours: Duration { Duration(hours: Double(self)) }
     public var days: Duration { Duration(days: Double(self)) }
 }
+
 extension Double: DurationConvertible {
     public var nanoseconds: Duration { Duration(self) }
     public var microseconds: Duration { Duration(microseconds: self) }

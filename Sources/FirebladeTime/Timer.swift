@@ -1,12 +1,12 @@
 //
-//  Timer.swift
+// Timer.swift
+// Fireblade Time
 //
-//
-//  Created by Christian Treffs on 16.11.19.
-//
+// Copyright © 2018-2021 Fireblade Team. All rights reserved.
+// Licensed under MIT License. See LICENSE file for details.
 
 open class Timer {
-    public var isStopped: Bool = false
+    public var isStopped = false
     @usableFromInline let elapsed: (Nanoseconds) -> Void
     public let start: Nanoseconds
 
