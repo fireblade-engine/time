@@ -29,7 +29,7 @@ import PackageDescription
 let package = Package(
     name: "YourPackageName",
     dependencies: [
-        .package(url: "https://github.com/fireblade-engine/time.git", from: "0.1.0")
+        .package(url: "https://github.com/fireblade-engine/time.git", from: "0.2.0")
     ],
     targets: [
         .target(
