@@ -31,7 +31,7 @@ jobs:
             .build/**/*.json
             .build/**/*.xctest
       - name: Build Release
-        run: make buildRelease
+        run: make build-release
         env:
           DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
       - name: Upload build artifacts
